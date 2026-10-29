@@ -1,0 +1,9 @@
+class GameState:
+    def __init__(self,game):
+        self.game = game
+    def handle_input(self,e):
+        pass
+    def update(self,dt):
+        pass
+    def draw(self,surf):
+        pass
