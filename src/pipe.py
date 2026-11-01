@@ -5,10 +5,14 @@ from consts import GAME_W, GAME_H, TILE_SIZE
 PIPE_SPEED=50
 
 class Pipe:
-    def __init__(self, body_tile_img, cap_tile_img, size, start_top):
-        self.x=GAME_W-TILE_SIZE
-        self.y, self.off = (0, TILE_SIZE) if start_top else (GAME_H-TILE_SIZE*2, -TILE_SIZE) 
-        self.rect=pygame.Rect(self.x, self.y, TILE_SIZE, size*TILE_SIZE) 
+    def __init__(self, body_tile_img, cap_tile_img, size, is_top_pipe):
+        self.start_x=GAME_W-TILE_SIZE
+        if is_top_pipe:
+            self.start_y=0
+        else:
+            #we minus TILE_SIZE*2 since one TILE_SIZE is for the grass and one is for the pipe cap.
+            self.start_y=GAME_H-(TILE_SIZE*2)-size*TILE_SIZE
+        self.rect=pygame.Rect(self.start_x, self.start_y, TILE_SIZE, size*TILE_SIZE+TILE_SIZE) 
         self.body_tile_img=body_tile_img
         self.cap_tile_img=cap_tile_img
         self.size=size
@@ -17,7 +21,7 @@ class Pipe:
         curr_y=self.rect.y
         for i in range(self.size):
             surf.blit(self.body_tile_img,(self.rect.x, curr_y))
-            curr_y+=self.off
+            curr_y+=TILE_SIZE
         surf.blit(self.cap_tile_img,(self.rect.x, curr_y))
 
 class PipePair:
@@ -25,8 +29,8 @@ class PipePair:
         self.body_tile_img=body_tile_img
         self.top_tile_img=top_tile_img
         self.top_pipe_size, self.bottom_pipe_size=self.rand_sizes()
-        self.top_pipe=Pipe(body_tile_img, top_tile_img, self.top_pipe_size, False) 
-        self.bottom_pipe=Pipe(body_tile_img, top_tile_img, self.bottom_pipe_size, True) 
+        self.top_pipe=Pipe(body_tile_img, top_tile_img, self.top_pipe_size, True) 
+        self.bottom_pipe=Pipe(body_tile_img, top_tile_img, self.bottom_pipe_size, False) 
         self.rect=pygame.Rect(
                 self.top_pipe.rect.x, self.top_pipe.rect.y, TILE_SIZE, GAME_H 
         ) 
