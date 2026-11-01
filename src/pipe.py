@@ -46,12 +46,16 @@ class PipePair:
         size_bottom=tiles_for_pipes-size_top
         return size_top, size_bottom
 
-    def player_collided(self, player_rect):
-        return (
-            player_rect.colliderect(self.top_pipe.rect) 
-            or
-            player_rect.colliderect(self.bottom_pipe.rect) 
-        )
+    def player_collided(self, player_mask, player_rect):
+        for pipe in (self.top_pipe, self.bottom_pipe):
+            pipe_mask=pygame.mask.Mask((pipe.rect.width, pipe.rect.height))
+            pipe_mask.fill()
+            player_mask_rect=player_mask.get_rect()
+            off_x=pipe.rect.x-player_rect.x
+            off_y=pipe.rect.y-player_rect.y 
+            if player_mask.overlap(pipe_mask, (off_x, off_y)):
+                return True
+        return False
 
     def update(self,dt):
         self.rect.x-=PIPE_SPEED*dt

@@ -3,6 +3,7 @@ import pygame
 class Player:
     def __init__(self,pos,img):
         self.img=img
+        self.mask=pygame.mask.from_surface(self.img)
         self.rect=self.img.get_rect(topleft=pos)
         self.v=0
         self.angle=0

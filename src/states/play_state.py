@@ -45,7 +45,7 @@ class PlayState(GameState):
 
         for pipe_pair in self.pipe_pairs:
             pipe_pair.update(dt)
-            if pipe_pair.player_collided(self.player.rect):
+            if pipe_pair.player_collided(self.player.mask, self.player.rect):
                 self.game.switch_state(GameOverState(self.game))
 
         pipe_pairs_on_screen=[pipe_pair for pipe_pair in self.pipe_pairs if pipe_pair.rect.right > 0]
