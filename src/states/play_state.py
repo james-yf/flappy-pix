@@ -6,6 +6,7 @@ from parallax_layer import ParallaxLayer
 from player import Player
 from utils import extract_tile
 from pipe import PipePair
+from states.game_over_state import GameOverState
 
 class PlayState(GameState):
     def __init__(self,game):
@@ -42,7 +43,7 @@ class PlayState(GameState):
         for pipe_pair in self.pipe_pairs:
             pipe_pair.update(dt)
             if pipe_pair.player_collided(self.player.rect):
-                print("collided")
+                self.game.switch_state(GameOverState(self.game))
 
         pipe_pairs_on_screen=[pipe_pair for pipe_pair in self.pipe_pairs if pipe_pair.rect.right > 0]
         for pipe_pair in pipe_pairs_on_screen:
