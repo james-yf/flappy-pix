@@ -31,9 +31,7 @@ class Game:
 
             self.state.update(dt)
 
-            fps_txt=self.font.render(f"FPS: {int(self.clock.get_fps())}", True, (0,0,0))
             self.state.draw(self.surf)
-            self.surf.blit(fps_txt,(0,0))
             pygame.transform.scale(self.surf,self.screen.get_size(),self.screen)
 
             pygame.display.flip()

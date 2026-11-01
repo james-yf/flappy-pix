@@ -30,6 +30,7 @@ class PipePair:
         self.rect=pygame.Rect(
                 self.top_pipe.rect.x, self.top_pipe.rect.y, TILE_SIZE, GAME_H 
         ) 
+        self.scored=False
 
     def rand_sizes(self):
         h=GAME_H//TILE_SIZE 

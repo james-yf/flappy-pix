@@ -32,6 +32,9 @@ class PlayState(GameState):
         self.pipe_pair=PipePair(self.pipe_body_img, self.pipe_top_img)
         self.pipe_pairs=[self.pipe_pair]
 
+        self.score_font=pygame.font.Font(None,16)
+        self.score=0
+
     def handle_input(self, e):
         self.player.handle_input(e)
 
@@ -49,6 +52,9 @@ class PlayState(GameState):
         for pipe_pair in pipe_pairs_on_screen:
             if pipe_pair.rect.x==GAME_W//2-TILE_SIZE:
                 pipe_pairs_on_screen.append(PipePair(self.pipe_body_img, self.pipe_top_img))  
+            if not pipe_pair.scored and pipe_pair.rect.centerx < self.player.rect.right:
+                pipe_pair.scored=True
+                self.score+=1
 
         self.pipe_pairs=pipe_pairs_on_screen
 
@@ -60,3 +66,5 @@ class PlayState(GameState):
         for pipe_pair in self.pipe_pairs:
             pipe_pair.draw(surf)
         self.player.draw(surf)
+        score_txt=self.score_font.render(f"Score: {self.score}", True, (255,255,255)) 
+        surf.blit(score_txt,(0,0))
