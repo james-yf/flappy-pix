@@ -2,8 +2,8 @@ import pygame
 
 class Player:
     def __init__(self,pos,img):
-        self.x,self.y=pos
         self.img=img
+        self.rect=self.img.get_rect(topleft=pos)
         self.v=0
         self.angle=0
 
@@ -18,11 +18,11 @@ class Player:
     def update(self,dt):
         dv=981*dt
         self.v+=dv
-        self.y+=(self.v*dt)
+        self.rect.y+=(self.v*dt)
 
         if self.angle >= -45:
             self.angle-=(100*dt)
 
     def draw(self,screen):
         rot=pygame.transform.rotate(self.img,self.angle)
-        screen.blit(rot,(self.x,self.y))
+        screen.blit(rot,(self.rect.x,self.rect.y))

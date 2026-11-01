@@ -41,6 +41,13 @@ class PipePair:
         size_bottom=tiles_for_pipes-size_top
         return size_top, size_bottom
 
+    def player_collided(self, player_rect):
+        return (
+            player_rect.colliderect(self.top_pipe.rect) 
+            or
+            player_rect.colliderect(self.bottom_pipe.rect) 
+        )
+
     def update(self,dt):
         self.rect.x-=PIPE_SPEED*dt
         self.top_pipe.rect.x=self.rect.x
@@ -49,3 +56,4 @@ class PipePair:
     def draw(self,surf):
         self.top_pipe.draw(surf)
         self.bottom_pipe.draw(surf)
+
