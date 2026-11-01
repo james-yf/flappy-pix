@@ -4,6 +4,8 @@ from states.game_state import GameState
 from consts import GAME_W, GAME_H, TILE_SIZE, IMGS
 from parallax_layer import ParallaxLayer
 from player import Player
+from utils import extract_tile
+from pipe import PipePair
 
 class PlayState(GameState):
     def __init__(self,game):
@@ -23,6 +25,12 @@ class PlayState(GameState):
         self.player_pos=(GAME_W//2-TILE_SIZE, GAME_H//2)
         self.player=Player(self.player_pos,self.player_img)
 
+        self.pipe_tilesheet=pygame.image.load(IMGS/"logs.png")
+        self.pipe_body_img=extract_tile(self.pipe_tilesheet, col_off=0, row_off=0)
+        self.pipe_top_img=extract_tile(self.pipe_tilesheet, col_off=1, row_off=0)
+        self.pipe_pair=PipePair(self.pipe_body_img, self.pipe_top_img)
+        self.pipe_pairs=[self.pipe_pair]
+
     def handle_input(self, e):
         self.player.handle_input(e)
 
@@ -31,9 +39,21 @@ class PlayState(GameState):
         self.tree.update(dt)
         self.player.update(dt)
 
+        for pipe_pair in self.pipe_pairs:
+            pipe_pair.update(dt)
+
+        pipe_pairs_on_screen=[pipe_pair for pipe_pair in self.pipe_pairs if pipe_pair.rect.right > 0]
+        for pipe_pair in pipe_pairs_on_screen:
+            if pipe_pair.rect.x==GAME_W//2-TILE_SIZE:
+                pipe_pairs_on_screen.append(PipePair(self.pipe_body_img, self.pipe_top_img))  
+
+        self.pipe_pairs=pipe_pairs_on_screen
+
     def draw(self, surf):
         surf.blit(self.sky_img,(0,0))
         self.clouds.draw(surf)
         self.tree.draw(surf)
         surf.blit(self.grass_img,(0,GAME_H-TILE_SIZE))
+        for pipe_pair in self.pipe_pairs:
+            pipe_pair.draw(surf)
         self.player.draw(surf)
