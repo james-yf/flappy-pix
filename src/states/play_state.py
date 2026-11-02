@@ -21,6 +21,8 @@ class PlayState(GameState):
         self.tree=ParallaxLayer(self.tree_img, speed=100, draw_at_y=GAME_H-2*TILE_SIZE)
 
         self.grass_img=pygame.image.load(IMGS/"grass.png").convert()
+        self.grass_mask=pygame.mask.from_surface(self.grass_img)
+        self.grass_rect=pygame.Rect(0, GAME_H-TILE_SIZE, GAME_W, TILE_SIZE)
 
         self.player_img=pygame.image.load(IMGS/"sheep.png").convert_alpha()
         self.player_pos=(GAME_W//2-TILE_SIZE, GAME_H//2)
@@ -42,6 +44,11 @@ class PlayState(GameState):
         self.clouds.update(dt)
         self.tree.update(dt)
         self.player.update(dt)
+
+        off_x=self.grass_rect.x-self.player.rect.x
+        off_y=self.grass_rect.y-self.player.rect.y
+        if self.player.mask.overlap(self.grass_mask, (off_x, off_y)):
+            self.game.switch_state(GameOverState(self.game))
 
         for pipe_pair in self.pipe_pairs:
             pipe_pair.update(dt)
