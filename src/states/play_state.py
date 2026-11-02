@@ -52,6 +52,8 @@ class PlayState(GameState):
 
         for pipe_pair in self.pipe_pairs:
             pipe_pair.update(dt)
+            if self.player.rect.y<0 and not pipe_pair.scored and pipe_pair.rect.left<self.player.rect.right:
+                self.game.switch_state(GameOverState(self.game))
             if pipe_pair.player_collided(self.player.mask, self.player.rect):
                 self.game.switch_state(GameOverState(self.game))
 
