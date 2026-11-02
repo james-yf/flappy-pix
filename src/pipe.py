@@ -6,7 +6,7 @@ PIPE_SPEED=50
 
 class Pipe:
     def __init__(self, body_tile_img, cap_tile_img, size, is_top_pipe):
-        self.start_x=GAME_W-TILE_SIZE
+        self.start_x=GAME_W
         if is_top_pipe:
             self.start_y=0
         else:
