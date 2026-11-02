@@ -9,7 +9,7 @@ class Player:
         self.angle=0
 
     def flap(self):
-        self.v=-300
+        self.v=-200
         self.angle=45
 
     def handle_input(self,e):
