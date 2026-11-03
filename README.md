@@ -1,4 +1,4 @@
-<h1 align="center">flappy-pix</h1>
+<h1 align="center">flix</h1>
 
 <p align="center">
   <img src="demo.gif" alt="Project Demo" width="300">
