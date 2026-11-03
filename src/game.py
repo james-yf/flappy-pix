@@ -1,7 +1,8 @@
 import sys
 import pygame
 from consts import GAME_W,GAME_H
-from states.play_state import PlayState
+from states.title_state import TitleState
+from assets import load_assets
 
 SCALE_FACTOR=4
 
@@ -13,8 +14,9 @@ class Game:
         pygame.display.set_caption("Flappy Pix")
         self.clock=pygame.time.Clock()
         self.font=pygame.font.Font(None,16)
+        load_assets()
         self.running=True
-        self.state=PlayState(self)
+        self.state=TitleState(self)
 
     def switch_state(self,state):
         self.state=state

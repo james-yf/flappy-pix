@@ -15,8 +15,8 @@ class GameOverState(GameState):
 
     def handle_input(self,e):
         if e.type==pygame.KEYDOWN and e.key==pygame.K_r: 
-            from states.play_state import PlayState
-            self.game.switch_state(PlayState(self.game))
+            from states.title_state import TitleState
+            self.game.switch_state(TitleState(self.game))
 
     def update(self,dt):
         pass

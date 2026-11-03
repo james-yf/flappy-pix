@@ -1,37 +1,36 @@
 import random
 import pygame
 from states.game_state import GameState
-from consts import GAME_W, GAME_H, TILE_SIZE, IMGS
+from consts import GAME_W, GAME_H, TILE_SIZE
 from parallax_layer import ParallaxLayer
 from player import Player
-from utils import extract_tile
 from pipe import PipePair
 from states.game_over_state import GameOverState
+from assets import get_asset
 
 class PlayState(GameState):
     def __init__(self,game):
         super().__init__(game)
 
-        self.sky_img=pygame.image.load(IMGS/"sky.png").convert()
+        self.sky_img=get_asset("sky")
 
-        self.clouds_img=pygame.image.load(IMGS/"clouds.png").convert_alpha()
+        self.clouds_img=get_asset("clouds")
         self.clouds=ParallaxLayer(self.clouds_img, speed=30, draw_at_y=TILE_SIZE)
 
-        self.tree_img=pygame.image.load(IMGS/"tree.png").convert_alpha()
+        self.tree_img=get_asset("tree")
         self.tree=ParallaxLayer(self.tree_img, speed=100, draw_at_y=GAME_H-2*TILE_SIZE)
 
-        self.grass_img=pygame.image.load(IMGS/"grass.png").convert()
+        self.grass_img=get_asset("grass")
         self.grass_mask=pygame.mask.from_surface(self.grass_img)
         self.grass_rect=pygame.Rect(0, GAME_H-TILE_SIZE, GAME_W, TILE_SIZE)
 
-        self.player_img=pygame.image.load(IMGS/"sheep.png").convert_alpha()
+        self.player_img=get_asset("sheep")        
         self.player_pos=(GAME_W//2-TILE_SIZE, GAME_H//2)
         self.player=Player(self.player_pos,self.player_img)
 
-        self.pipe_tilesheet=pygame.image.load(IMGS/"logs.png")
-        self.pipe_body_img=extract_tile(self.pipe_tilesheet, col_off=0, row_off=0)
-        self.pipe_top_img=extract_tile(self.pipe_tilesheet, col_off=1, row_off=0)
-        self.pipe_pair=PipePair(self.pipe_body_img, self.pipe_top_img)
+        self.pipe_body_img=get_asset("pipe_body_tile")
+        self.pipe_cap_img=get_asset("pipe_cap_tile")
+        self.pipe_pair=PipePair(self.pipe_body_img, self.pipe_cap_img)
         self.pipe_pairs=[self.pipe_pair]
 
         self.score_font=pygame.font.Font(None,16)
@@ -60,7 +59,7 @@ class PlayState(GameState):
         pipe_pairs_on_screen=[pipe_pair for pipe_pair in self.pipe_pairs if pipe_pair.rect.right > 0]
         for pipe_pair in pipe_pairs_on_screen:
             if pipe_pair.rect.x==GAME_W//2-TILE_SIZE:
-                pipe_pairs_on_screen.append(PipePair(self.pipe_body_img, self.pipe_top_img))  
+                pipe_pairs_on_screen.append(PipePair(self.pipe_body_img, self.pipe_cap_img))  
             if not pipe_pair.scored and pipe_pair.rect.centerx < self.player.rect.right:
                 pipe_pair.scored=True
                 self.score+=1

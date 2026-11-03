@@ -1,16 +1,19 @@
 import pygame
 
+FLAP_VELOCITY=-200
+FLAP_ANGLE=45
+
 class Player:
     def __init__(self,pos,img):
         self.img=img
         self.mask=pygame.mask.from_surface(self.img)
         self.rect=self.img.get_rect(topleft=pos)
-        self.v=0
-        self.angle=0
+        self.v=FLAP_VELOCITY
+        self.angle=FLAP_ANGLE
 
     def flap(self):
-        self.v=-200
-        self.angle=45
+        self.v=FLAP_VELOCITY
+        self.angle=FLAP_ANGLE
 
     def handle_input(self,e):
         if e.type==pygame.KEYDOWN and e.key==pygame.K_SPACE:
