@@ -6,6 +6,16 @@
 
 A flappy bird clone.
 
-Aims:
+# Aims:
 - learn how to make a side-scroller
 - use pixel art I'm learning to make 
+
+# How to run:
+1. `pip install pygame`
+
+2. `python/main.py`
+
+# Controls
+- `SPACE` to start/flap
+- `R` to restart the game
+
