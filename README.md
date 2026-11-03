@@ -1,9 +1,7 @@
-<p align="center"><img src="logo.png"/></p>
-
 <h1 align="center">flappy-pix</h1>
 
 <p align="center">
-  <img src="demo.gif" alt="Project Demo" width="600">
+  <img src="demo.gif" alt="Project Demo" width="300">
 </p>
 
 A flappy bird clone.
